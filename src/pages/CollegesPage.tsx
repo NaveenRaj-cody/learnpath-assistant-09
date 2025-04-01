@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { MapPin, Search, Building, X, Medal, CheckSquare } from 'lucide-react';
 import { coursesData } from '@/data/coursesData';
-import { collegesData, College } from '@/data/collegesData';
+import { collegesData } from '@/data/collegesData';
 import AnimatedTransition from '@/components/AnimatedTransition';
 import CoursesModal from '@/components/CoursesModal';
 import { useToast } from "@/hooks/use-toast";
@@ -63,7 +63,7 @@ const getCollegeRating = (collegeName: string): number => {
   return 3 + (nameSum % 20) / 10;
 };
 
-const getCollegeCredentials = (college: College): CollegeCredentials => {
+const getCollegeCredentials = (college: any): CollegeCredentials => {
   const nameLength = college.name.length;
   const hasRanking = college.name.includes('Institute') || college.name.includes('University') || nameLength % 5 === 0;
   const isAccredited = college.name.includes('College') || college.name.includes('Institute') || nameLength % 3 === 0;
@@ -226,7 +226,7 @@ const CollegesPage = () => {
     });
   }, [uniqueColleges, searchTerm, collegeTypeFilter, collegeAffiliationFilter, specializationFilter, stateFilter, districtFilter]);
 
-  const handleViewDetails = (college: College) => {
+  const handleViewDetails = (college: any) => {
     toast({
       title: "Viewing college details",
       description: `Loading details for ${college.name}`,
@@ -264,35 +264,35 @@ const CollegesPage = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
       
-      <main className="flex-1 container mx-auto py-8 px-4">
+      <main className="flex-1 container mx-auto py-4 sm:py-8 px-2 sm:px-4">
         <AnimatedTransition>
-          <h1 className="text-3xl font-bold mb-8 text-gradient">Colleges</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8 text-gradient">Colleges</h1>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div className="lg:col-span-1">
               <Card className="glass-panel hover:shadow-lg transition-all duration-300">
-                <CardHeader>
-                  <CardTitle className="text-xl">Filters</CardTitle>
+                <CardHeader className="p-4 sm:p-6">
+                  <CardTitle className="text-lg sm:text-xl">Filters</CardTitle>
                   <CardDescription>Refine your college search</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6 pt-0 sm:pt-0">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Search</label>
+                    <label className="text-xs sm:text-sm font-medium">Search</label>
                     <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-3 w-3 sm:h-4 sm:w-4" />
                       <Input
                         type="text"
                         placeholder="Search colleges..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 glass-input active:scale-[0.99] focus:scale-[1.01] transition-all hover:border-primary/50"
+                        className="pl-8 sm:pl-10 glass-input active:scale-[0.99] focus:scale-[1.01] transition-all hover:border-primary/50 text-xs sm:text-sm py-1 sm:py-2 h-8 sm:h-10"
                       />
                       {searchTerm && (
                         <button 
                           className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
                           onClick={() => setSearchTerm('')}
                         >
-                          <X className="h-4 w-4" />
+                          <X className="h-3 w-3 sm:h-4 sm:w-4" />
                         </button>
                       )}
                     </div>
@@ -303,10 +303,10 @@ const CollegesPage = () => {
                           {searchSuggestions.map((suggestion, index) => (
                             <li 
                               key={index} 
-                              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center"
+                              className="px-3 sm:px-4 py-1.5 sm:py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center text-xs sm:text-sm"
                               onClick={() => handleSuggestionClick(suggestion)}
                             >
-                              <Search className="h-4 w-4 mr-2 text-muted-foreground" />
+                              <Search className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 text-muted-foreground" />
                               <span>{suggestion}</span>
                             </li>
                           ))}
@@ -315,87 +315,87 @@ const CollegesPage = () => {
                     )}
                   </div>
                   
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">College Type</label>
+                  <div className="space-y-1 sm:space-y-2">
+                    <label className="text-xs sm:text-sm font-medium">College Type</label>
                     <Select
                       value={collegeTypeFilter}
                       onValueChange={(value) => handleFilterChange('type', value)}
                     >
-                      <SelectTrigger className="w-full glass-input">
+                      <SelectTrigger className="w-full glass-input text-xs sm:text-sm h-8 sm:h-10">
                         <SelectValue placeholder="Select college type" />
                       </SelectTrigger>
                       <SelectContent>
                         {collegeTypeOptions.map(option => (
-                          <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                          <SelectItem key={option.value} value={option.value} className="text-xs sm:text-sm">{option.label}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
                   
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">College Affiliation</label>
+                  <div className="space-y-1 sm:space-y-2">
+                    <label className="text-xs sm:text-sm font-medium">College Affiliation</label>
                     <Select
                       value={collegeAffiliationFilter}
                       onValueChange={(value) => handleFilterChange('affiliation', value)}
                     >
-                      <SelectTrigger className="w-full glass-input">
+                      <SelectTrigger className="w-full glass-input text-xs sm:text-sm h-8 sm:h-10">
                         <SelectValue placeholder="Select college affiliation" />
                       </SelectTrigger>
                       <SelectContent>
                         {collegeAffiliationOptions.map(option => (
-                          <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                          <SelectItem key={option.value} value={option.value} className="text-xs sm:text-sm">{option.label}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
                   
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Specialization</label>
+                  <div className="space-y-1 sm:space-y-2">
+                    <label className="text-xs sm:text-sm font-medium">Specialization</label>
                     <Select
                       value={specializationFilter}
                       onValueChange={(value) => handleFilterChange('specialization', value)}
                     >
-                      <SelectTrigger className="w-full glass-input">
+                      <SelectTrigger className="w-full glass-input text-xs sm:text-sm h-8 sm:h-10">
                         <SelectValue placeholder="Select specialization" />
                       </SelectTrigger>
                       <SelectContent>
                         {specializationOptions.map(option => (
-                          <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                          <SelectItem key={option.value} value={option.value} className="text-xs sm:text-sm">{option.label}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
                   
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">State/UT</label>
+                  <div className="space-y-1 sm:space-y-2">
+                    <label className="text-xs sm:text-sm font-medium">State/UT</label>
                     <Select
                       value={stateFilter}
                       onValueChange={(value) => handleFilterChange('state', value)}
                     >
-                      <SelectTrigger className="w-full glass-input">
+                      <SelectTrigger className="w-full glass-input text-xs sm:text-sm h-8 sm:h-10">
                         <SelectValue placeholder="Select state" />
                       </SelectTrigger>
                       <SelectContent>
                         {stateOptions.map(option => (
-                          <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                          <SelectItem key={option.value} value={option.value} className="text-xs sm:text-sm">{option.label}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
                   
                   {stateFilter !== 'all' && (
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">District</label>
+                    <div className="space-y-1 sm:space-y-2">
+                      <label className="text-xs sm:text-sm font-medium">District</label>
                       <Select
                         value={districtFilter}
                         onValueChange={(value) => handleFilterChange('district', value)}
                       >
-                        <SelectTrigger className="w-full glass-input">
+                        <SelectTrigger className="w-full glass-input text-xs sm:text-sm h-8 sm:h-10">
                           <SelectValue placeholder="Select district" />
                         </SelectTrigger>
                         <SelectContent>
                           {districtOptions.map(option => (
-                            <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                            <SelectItem key={option.value} value={option.value} className="text-xs sm:text-sm">{option.label}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
@@ -406,11 +406,11 @@ const CollegesPage = () => {
             </div>
             
             <div className="lg:col-span-2">
-              <div className="mb-4">
-                <h2 className="text-xl font-bold">Found {filteredColleges.length} colleges</h2>
+              <div className="mb-3 sm:mb-4">
+                <h2 className="text-lg sm:text-xl font-bold">Found {filteredColleges.length} colleges</h2>
               </div>
               
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-3 sm:gap-4">
                 {filteredColleges.length > 0 ? (
                   filteredColleges.map((college) => {
                     const rating = getCollegeRating(college.name);
@@ -419,57 +419,57 @@ const CollegesPage = () => {
                     return (
                       <Card key={college.id} className="hover:shadow-lg transition-all duration-300 group glass-panel">
                         <div className="flex flex-col md:flex-row">
-                          <div className="md:w-1/4 p-6">
+                          <div className="md:w-1/4 p-3 sm:p-4 md:p-6">
                             <div className="flex items-center justify-center h-full">
                               {college.logo ? (
                                 <img 
                                   src={college.logo} 
                                   alt={`${college.name} logo`} 
-                                  className="max-h-24 max-w-full object-contain transition-transform group-hover:scale-110" 
+                                  className="max-h-16 sm:max-h-20 md:max-h-24 max-w-full object-contain transition-transform group-hover:scale-110" 
                                 />
                               ) : (
-                                <Building className="h-24 w-24 text-primary/60 transition-transform group-hover:scale-110" />
+                                <Building className="h-16 sm:h-20 md:h-24 w-16 sm:w-20 md:w-24 text-primary/60 transition-transform group-hover:scale-110" />
                               )}
                             </div>
                           </div>
                           
-                          <CardContent className="flex-1 p-6 pt-6">
+                          <CardContent className="flex-1 p-3 sm:p-4 md:p-6">
                             <div className="mb-2 flex justify-between items-start">
-                              <h3 className="text-xl font-bold hover:text-primary transition-colors">{college.name}</h3>
+                              <h3 className="text-base sm:text-lg md:text-xl font-bold hover:text-primary transition-colors line-clamp-2">{college.name}</h3>
                               <StarRating rating={rating} />
                             </div>
                             
-                            <div className="flex items-center text-muted-foreground mb-3">
-                              <MapPin className="h-4 w-4 mr-1" />
-                              <span>{college.location}</span>
+                            <div className="flex items-center text-muted-foreground mb-2 sm:mb-3">
+                              <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                              <span className="text-xs sm:text-sm line-clamp-1">{college.location}</span>
                             </div>
                             
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 mb-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-1 gap-x-2 sm:gap-y-2 sm:gap-x-4 mb-3 sm:mb-4">
                               {credentials.ranking && (
-                                <div className="flex items-center text-sm">
-                                  <Medal className="h-4 w-4 mr-1 text-amber-500" />
+                                <div className="flex items-center text-xs sm:text-sm">
+                                  <Medal className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-amber-500" />
                                   <span>{credentials.ranking}</span>
                                 </div>
                               )}
                               
                               {credentials.accreditation && (
-                                <div className="flex items-center text-sm">
-                                  <CheckSquare className="h-4 w-4 mr-1 text-green-500" />
+                                <div className="flex items-center text-xs sm:text-sm">
+                                  <CheckSquare className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-green-500" />
                                   <span>{credentials.accreditation}</span>
                                 </div>
                               )}
                               
-                              <div className="flex items-center text-sm">
-                                <Building className="h-4 w-4 mr-1 text-blue-500" />
+                              <div className="flex items-center text-xs sm:text-sm">
+                                <Building className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-blue-500" />
                                 <span>{credentials.affiliation}</span>
                               </div>
                             </div>
                             
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-1 sm:gap-2">
                               {college.features.slice(0, 3).map((feature, index) => (
                                 <span 
                                   key={index} 
-                                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary-foreground"
+                                  className="inline-flex items-center px-1.5 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary-foreground"
                                 >
                                   {feature}
                                 </span>
@@ -477,11 +477,12 @@ const CollegesPage = () => {
                             </div>
                           </CardContent>
                           
-                          <CardFooter className="p-6 flex flex-col justify-end">
+                          <CardFooter className="p-3 sm:p-4 md:p-6 flex flex-col justify-end">
                             <Button 
                               onClick={() => handleViewDetails(college)}
                               variant="default"
-                              className="w-full"
+                              className="w-full text-xs sm:text-sm py-1 sm:py-2 h-7 sm:h-9"
+                              size={isMobile ? "sm" : "default"}
                             >
                               View Details
                             </Button>
@@ -491,9 +492,9 @@ const CollegesPage = () => {
                     );
                   })
                 ) : (
-                  <div className="text-center py-12">
-                    <h3 className="text-xl font-semibold">No colleges found</h3>
-                    <p className="text-muted-foreground mt-2">Try changing your search criteria</p>
+                  <div className="text-center py-6 sm:py-12">
+                    <h3 className="text-lg sm:text-xl font-semibold">No colleges found</h3>
+                    <p className="text-muted-foreground mt-2 text-sm sm:text-base">Try changing your search criteria</p>
                   </div>
                 )}
               </div>
