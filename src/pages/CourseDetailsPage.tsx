@@ -213,7 +213,7 @@ const CourseDetailsPage = () => {
                             {course.careerProspects.map((career, index) => (
                               <Badge 
                                 key={index} 
-                                className="justify-start py-1 sm:py-2 bg-secondary/20 hover:bg-secondary/30 cursor-default transition-colors text-[10px] sm:text-xs"
+                                className="justify-start py-1 sm:py-2 bg-secondary/20 hover:bg-secondary/30 cursor-default transition-colors text-[10px] sm:text-xs text-foreground"
                               >
                                 <BriefcaseIcon className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1 sm:mr-2" />
                                 {career}
@@ -362,7 +362,7 @@ const CourseDetailsPage = () => {
                   <div className="bg-muted/30 p-3 rounded-md">
                     <div className="flex flex-wrap gap-2">
                       {["Technical Knowledge", "Communication", "Problem Solving", "Analytical Thinking", "Teamwork"].map((skill, i) => (
-                        <Badge key={i} variant="secondary" className="bg-secondary/10">
+                        <Badge key={i} variant="secondary" className="bg-secondary/10 text-foreground">
                           {skill}
                         </Badge>
                       ))}
