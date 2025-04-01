@@ -1,102 +1,279 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 222 47% 11%;
+
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 240 10% 3.9%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 240 5.9% 90%;
-    --sidebar-ring: 240 5.9% 10%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+
     --radius: 0.75rem;
   }
- 
+
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --sidebar-background: 240 10% 3.9%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 0 0% 98%;
-    --sidebar-primary-foreground: 240 5.9% 10%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 240 4.9% 83.9%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 217 19% 27%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 19% 27%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 19% 27%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 19% 27%;
+    --input: 217 19% 27%;
+    --ring: 224 76% 48%;
   }
 }
 
-/* Ensure text is visible in all themes */
 @layer base {
-  .career-prospects p,
-  .career-prospects li,
-  .career-prospects span,
-  .career-prospects div {
-    @apply text-foreground;
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-foreground font-medium tracking-tight relative z-10;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  p, li, span {
+    @apply text-foreground/90 leading-relaxed relative z-10;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  a {
+    @apply text-primary hover:text-primary/80 transition-colors relative z-10;
+  }
+
+  /* Custom scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted rounded-full;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/30;
+  }
+
+  /* Improved focus styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Better table alignment */
+  table {
+    @apply w-full border-collapse;
+  }
+
+  th {
+    @apply text-left p-2 bg-muted/50;
+  }
+
+  td {
+    @apply p-2 border-b border-muted;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply backdrop-blur-lg bg-white/20 dark:bg-black/30 border border-white/30 dark:border-white/10 shadow-lg relative z-10;
   }
   
-  /* Fix any transparent dropdown background issues */
-  .popover-content,
-  .dropdown-content,
-  .select-content,
-  .command-menu {
-    @apply bg-popover dark:bg-gray-800 bg-opacity-100 dark:bg-opacity-100 backdrop-blur-none !important;
+  .glass-input {
+    @apply bg-white/40 dark:bg-black/40 border border-white/40 dark:border-white/10 backdrop-blur-md focus:bg-white/60 dark:focus:bg-black/50 transition-all duration-300;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .chat-bubble-user {
+    @apply bg-primary text-primary-foreground rounded-2xl rounded-br-sm px-4 py-3 shadow-md animate-slide-up;
+  }
+
+  .chat-bubble-bot {
+    @apply bg-secondary text-secondary-foreground rounded-2xl rounded-bl-sm px-4 py-3 shadow-md animate-slide-up;
   }
   
-  /* Fix command menu items */
-  .cmdk-item {
-    @apply bg-popover dark:bg-gray-800 !important;
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .subtle-underline {
+    @apply relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full;
+  }
+
+  /* Better alignment for cards */
+  .card-grid {
+    @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  /* Better text contrast */
+  .text-enhanced {
+    @apply text-foreground/90 dark:text-foreground/95;
+  }
+
+  /* Card consistent styling */
+  .styled-card {
+    @apply border border-border bg-card shadow-sm hover:shadow-md transition-shadow rounded-lg overflow-hidden relative z-10;
+  }
+  
+  /* 3D text effect for better legibility over the 3D background */
+  .text-3d {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4), 0 2px 5px rgba(0, 0, 0, 0.1);
+    @apply relative z-10;
+  }
+  
+  /* Content wrapper with backdrop blur for better text legibility */
+  .content-wrapper {
+    @apply relative z-10 bg-background/70 dark:bg-background/50 backdrop-blur-sm;
   }
 }
 
-.glass-panel {
-  @apply backdrop-blur-sm bg-white/25 dark:bg-gray-900/40 border border-white/20 dark:border-white/10;
+/* Font imports */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Base font settings */
+html {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.glass-input {
-  @apply bg-white/80 dark:bg-gray-900/80 border border-white/30 dark:border-white/10;
+/* Animation classes */
+.animate-in {
+  animation: fade-in 0.3s ease-out forwards;
 }
 
-.text-gradient {
-  @apply bg-gradient-to-br from-primary via-primary/90 to-primary/70 dark:from-white dark:via-white/90 dark:to-white/70 bg-clip-text text-transparent;
+.animate-out {
+  animation: fade-out 0.3s ease-out forwards;
+}
+
+/* Page transition effect */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Python integration styling */
+.python-output {
+  @apply font-mono text-sm p-4 rounded-md bg-black/80 text-green-400 overflow-x-auto;
+}
+
+.python-code {
+  @apply font-mono text-sm p-4 rounded-md bg-black/80 text-blue-400 overflow-x-auto;
+}
+
+/* Star Rating Styling */
+.star-rating {
+  @apply flex items-center;
+}
+
+.star-filled {
+  @apply text-amber-500 fill-amber-500;
+}
+
+.star-empty {
+  @apply text-amber-500 fill-none;
+}
+
+/* Main content needs to be above the 3D background */
+main, header, footer, .card, .button, input, select {
+  @apply relative z-10;
+}
+
+/* Add a subtle text shadow to improve text legibility over the 3D background */
+h1, h2, h3, .card-title, .button-text {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Additional styles for better contrast with 3D background */
+.content-area {
+  @apply relative z-20 bg-background/70 dark:bg-background/60 backdrop-blur-sm rounded-lg p-6;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Card with improved visibility */
+.enhanced-card {
+  @apply bg-white/90 dark:bg-black/80 backdrop-blur-md relative z-20 rounded-lg;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Improve button visibility */
+.btn-enhanced {
+  @apply relative z-20 shadow-lg;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Add depth to main content containers */
+main, section, .main-content {
+  @apply relative z-10;
 }

@@ -100,21 +100,21 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
         )}
       </PopoverTrigger>
       <PopoverContent 
-        className={cn("p-0 bg-popover dark:bg-gray-800", popoverWidth)} 
+        className={cn("p-0", popoverWidth)} 
         align="start"
         sideOffset={4}
       >
-        <Command className="bg-transparent">
+        <Command>
           <CommandInput 
             placeholder={searchPlaceholder || `Search ${placeholder.toLowerCase()}...`} 
             value={searchValue}
             onValueChange={setSearchValue}
             className="h-9"
           />
-          <CommandList className="bg-popover dark:bg-gray-800">
+          <CommandList>
             <CommandEmpty>{noResultsText}</CommandEmpty>
-            <CommandGroup className="bg-popover dark:bg-gray-800">
-              <ScrollArea className={isMobile ? "h-[180px]" : "h-[300px]"}>
+            <CommandGroup>
+              <ScrollArea className={isMobile ? "h-[200px]" : "h-[300px]"}>
                 {filteredOptions.map((option) => (
                   <CommandItem
                     key={option.value}
