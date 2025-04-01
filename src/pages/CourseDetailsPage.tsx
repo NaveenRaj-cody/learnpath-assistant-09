@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, MessageSquare, Briefcase, Graduation, Award } from 'lucide-react';
+import { ArrowLeft, MessageSquare, Briefcase, GraduationCap, Award } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -10,9 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Header from '@/components/Header';
 import AnimatedTransition from '@/components/AnimatedTransition';
-import { getCourseById } from '@/data/coursesData';
-import { getCollegesByIds } from '@/data/collegesData';
-import { getCareersForCourse } from '@/data/careersData';
+import { getCourseById, getCollegesByIds, getCareersForCourse } from '@/utils/dataUtils';
 import StarRating from '@/components/StarRating';
 
 const CourseDetailsPage = () => {
@@ -86,7 +84,7 @@ const CourseDetailsPage = () => {
                       </span>
                     </div>
                     <div className="flex items-center">
-                      <Graduation className="h-4 w-4 mr-2 text-primary" />
+                      <GraduationCap className="h-4 w-4 mr-2 text-primary" />
                       <span className="text-sm">{course.qualification}</span>
                     </div>
                     <div className="flex items-center">
@@ -94,7 +92,7 @@ const CourseDetailsPage = () => {
                       <span className="text-sm">{course.jobProspects} job prospects</span>
                     </div>
                     <div className="flex items-center">
-                      <StarRating rating={course.rating || 4} size={16} />
+                      <StarRating rating={course.rating || 4} size="sm" />
                       <span className="text-sm ml-2">{course.rating || 4}/5</span>
                     </div>
                   </div>
@@ -180,7 +178,7 @@ const CourseDetailsPage = () => {
                                 </CardHeader>
                                 <CardContent className="pt-0 pb-4">
                                   <div className="flex items-center mb-2">
-                                    <StarRating rating={college.rating || 4} size={14} />
+                                    <StarRating rating={college.rating || 4} size="sm" />
                                     <span className="text-sm ml-2">{college.ranking || "Top 100"} Ranking</span>
                                   </div>
                                   <p className="text-sm text-muted-foreground">

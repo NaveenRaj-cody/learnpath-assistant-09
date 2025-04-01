@@ -7,7 +7,7 @@ interface StarRatingProps {
   maxRating?: number;
   className?: string;
   showNumber?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | number;
 }
 
 const StarRating: React.FC<StarRatingProps> = ({ 
@@ -18,6 +18,10 @@ const StarRating: React.FC<StarRatingProps> = ({
   size = 'sm'
 }) => {
   const getSizeClass = () => {
+    if (typeof size === 'number') {
+      return `h-[${size}px] w-[${size}px]`;
+    }
+    
     switch(size) {
       case 'sm': return 'h-4 w-4';
       case 'md': return 'h-5 w-5';
@@ -27,6 +31,11 @@ const StarRating: React.FC<StarRatingProps> = ({
   };
   
   const getTextSize = () => {
+    if (typeof size === 'number') {
+      const textSize = size <= 16 ? 'text-sm' : size <= 20 ? 'text-base' : 'text-lg';
+      return textSize;
+    }
+    
     switch(size) {
       case 'sm': return 'text-sm';
       case 'md': return 'text-base';
@@ -41,6 +50,7 @@ const StarRating: React.FC<StarRatingProps> = ({
         <Star 
           key={i} 
           className={`${getSizeClass()} ${i < Math.floor(rating) ? 'fill-amber-500 text-amber-500' : 'fill-none text-amber-500'}`} 
+          size={typeof size === 'number' ? size : undefined}
         />
       ))}
       {showNumber && <span className={`ml-1 ${getTextSize()} font-medium`}>{rating.toFixed(1)}</span>}
