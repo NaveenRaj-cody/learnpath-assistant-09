@@ -1,198 +1,315 @@
-import * as React from "react"
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
-import { Check, ChevronRight, Circle } from "lucide-react"
 
-import { cn } from "@/lib/utils"
+import React, { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { ArrowLeft, MessageSquare, Briefcase, Graduation, Award } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import Header from '@/components/Header';
+import AnimatedTransition from '@/components/AnimatedTransition';
+import { getCourseById } from '@/data/coursesData';
+import { getCollegesByIds } from '@/data/collegesData';
+import { getCareersForCourse } from '@/data/careersData';
+import StarRating from '@/components/StarRating';
 
-const DropdownMenu = DropdownMenuPrimitive.Root
+const CourseDetailsPage = () => {
+  const { courseId } = useParams<{ courseId: string }>();
+  const [course, setCourse] = useState<any>(null);
+  const [colleges, setColleges] = useState<any[]>([]);
+  const [careers, setCareers] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState('overview');
 
-const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
+  useEffect(() => {
+    if (courseId) {
+      const foundCourse = getCourseById(courseId);
+      if (foundCourse) {
+        setCourse(foundCourse);
+        
+        // Get colleges that offer this course
+        if (foundCourse.topCollegeIds && foundCourse.topCollegeIds.length > 0) {
+          setColleges(getCollegesByIds(foundCourse.topCollegeIds));
+        }
+        
+        // Get career options for this course
+        const relatedCareers = getCareersForCourse(courseId);
+        setCareers(relatedCareers);
+      }
+    }
+  }, [courseId]);
 
-const DropdownMenuGroup = DropdownMenuPrimitive.Group
-
-const DropdownMenuPortal = DropdownMenuPrimitive.Portal
-
-const DropdownMenuSub = DropdownMenuPrimitive.Sub
-
-const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
-
-const DropdownMenuSubTrigger = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & {
-    inset?: boolean
+  if (!course) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p>Loading course details...</p>
+      </div>
+    );
   }
->(({ className, inset, children, ...props }, ref) => (
-  <DropdownMenuPrimitive.SubTrigger
-    ref={ref}
-    className={cn(
-      "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent",
-      inset && "pl-8",
-      className
-    )}
-    {...props}
-  >
-    {children}
-    <ChevronRight className="ml-auto h-4 w-4" />
-  </DropdownMenuPrimitive.SubTrigger>
-))
-DropdownMenuSubTrigger.displayName =
-  DropdownMenuPrimitive.SubTrigger.displayName
 
-const DropdownMenuSubContent = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
->(({ className, ...props }, ref) => (
-  <DropdownMenuPrimitive.SubContent
-    ref={ref}
-    className={cn(
-      "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-      className
-    )}
-    {...props}
-  />
-))
-DropdownMenuSubContent.displayName =
-  DropdownMenuPrimitive.SubContent.displayName
-
-const DropdownMenuContent = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
-  <DropdownMenuPrimitive.Portal>
-    <DropdownMenuPrimitive.Content
-      ref={ref}
-      sideOffset={sideOffset}
-      className={cn(
-        "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:bg-gray-800 bg-white",
-        className
-      )}
-      {...props}
-    />
-  </DropdownMenuPrimitive.Portal>
-))
-DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName
-
-const DropdownMenuItem = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
-    inset?: boolean
-  }
->(({ className, inset, ...props }, ref) => (
-  <DropdownMenuPrimitive.Item
-    ref={ref}
-    className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      inset && "pl-8",
-      className
-    )}
-    {...props}
-  />
-))
-DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
-
-const DropdownMenuCheckboxItem = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>
->(({ className, children, checked, ...props }, ref) => (
-  <DropdownMenuPrimitive.CheckboxItem
-    ref={ref}
-    className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className
-    )}
-    checked={checked}
-    {...props}
-  >
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-      <DropdownMenuPrimitive.ItemIndicator>
-        <Check className="h-4 w-4" />
-      </DropdownMenuPrimitive.ItemIndicator>
-    </span>
-    {children}
-  </DropdownMenuPrimitive.CheckboxItem>
-))
-DropdownMenuCheckboxItem.displayName =
-  DropdownMenuPrimitive.CheckboxItem.displayName
-
-const DropdownMenuRadioItem = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem>
->(({ className, children, ...props }, ref) => (
-  <DropdownMenuPrimitive.RadioItem
-    ref={ref}
-    className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className
-    )}
-    {...props}
-  >
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-      <DropdownMenuPrimitive.ItemIndicator>
-        <Circle className="h-2 w-2 fill-current" />
-      </DropdownMenuPrimitive.ItemIndicator>
-    </span>
-    {children}
-  </DropdownMenuPrimitive.RadioItem>
-))
-DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName
-
-const DropdownMenuLabel = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Label>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & {
-    inset?: boolean
-  }
->(({ className, inset, ...props }, ref) => (
-  <DropdownMenuPrimitive.Label
-    ref={ref}
-    className={cn(
-      "px-2 py-1.5 text-sm font-semibold",
-      inset && "pl-8",
-      className
-    )}
-    {...props}
-  />
-))
-DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName
-
-const DropdownMenuSeparator = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
->(({ className, ...props }, ref) => (
-  <DropdownMenuPrimitive.Separator
-    ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-muted", className)}
-    {...props}
-  />
-))
-DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
-
-const DropdownMenuShortcut = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLSpanElement>) => {
   return (
-    <span
-      className={cn("ml-auto text-xs tracking-widest opacity-60", className)}
-      {...props}
-    />
-  )
-}
-DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="container max-w-7xl mx-auto px-4 py-6">
+        <AnimatedTransition>
+          <div className="mb-6">
+            <Link
+              to="/courses"
+              className="flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <ArrowLeft size={16} className="mr-1" />
+              Back to courses
+            </Link>
+          </div>
 
-export {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuCheckboxItem,
-  DropdownMenuRadioItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuGroup,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuRadioGroup,
-}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <Card className="mb-6 glass-panel shadow-lg">
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <CardTitle className="text-2xl md:text-3xl font-bold">{course.name}</CardTitle>
+                      <CardDescription className="text-lg mt-2">{course.description}</CardDescription>
+                    </div>
+                    <Badge variant="outline" className="text-sm px-3 py-1 border-primary/30">
+                      {course.level}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-4 mb-4">
+                    <div className="flex items-center">
+                      <Award className="h-4 w-4 mr-2 text-primary" />
+                      <span className="text-sm">
+                        {course.duration} {course.durationType}
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <Graduation className="h-4 w-4 mr-2 text-primary" />
+                      <span className="text-sm">{course.qualification}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Briefcase className="h-4 w-4 mr-2 text-primary" />
+                      <span className="text-sm">{course.jobProspects} job prospects</span>
+                    </div>
+                    <div className="flex items-center">
+                      <StarRating rating={course.rating || 4} size={16} />
+                      <span className="text-sm ml-2">{course.rating || 4}/5</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="w-full grid grid-cols-3 mb-6">
+                  <TabsTrigger value="overview">Overview</TabsTrigger>
+                  <TabsTrigger value="colleges">Colleges</TabsTrigger>
+                  <TabsTrigger value="careers">Career Paths</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="overview" className="mt-0">
+                  <Card className="glass-panel shadow-lg">
+                    <CardHeader>
+                      <CardTitle>Course Overview</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div>
+                        <h3 className="font-medium mb-2">Description</h3>
+                        <p>{course.fullDescription || course.description}</p>
+                      </div>
+
+                      {course.curriculum && course.curriculum.length > 0 && (
+                        <div>
+                          <h3 className="font-medium mb-2">Curriculum Highlights</h3>
+                          <ul className="list-disc pl-5 space-y-1">
+                            {course.curriculum.map((item: string, index: number) => (
+                              <li key={index}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {course.requirements && (
+                        <div>
+                          <h3 className="font-medium mb-2">Entry Requirements</h3>
+                          <p>{course.requirements}</p>
+                        </div>
+                      )}
+
+                      <div className="career-prospects">
+                        <h3 className="font-medium mb-2">Career Prospects</h3>
+                        <p className="text-foreground">
+                          This course opens doors to various opportunities including roles like
+                          {careers.length > 0
+                            ? careers.slice(0, 3).map((career) => career.title).join(", ")
+                            : " industry specialist, consultant, and researcher"}
+                          , with an average starting salary of approximately {course.averageSalary || "$45,000-$65,000"}.
+                        </p>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button className="w-full sm:w-auto">
+                        <MessageSquare className="mr-2 h-4 w-4" /> Ask about this course
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="colleges" className="mt-0">
+                  <Card className="glass-panel shadow-lg">
+                    <CardHeader>
+                      <CardTitle>Colleges offering {course.name}</CardTitle>
+                      <CardDescription>
+                        {colleges.length} colleges found that offer this course
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <ScrollArea className="h-[400px]">
+                        <div className="space-y-4">
+                          {colleges.length > 0 ? (
+                            colleges.map((college) => (
+                              <Card key={college.id} className="hover:shadow-md transition-shadow">
+                                <CardHeader className="pb-2">
+                                  <Link to={`/colleges/${college.id}`}>
+                                    <CardTitle className="text-lg hover:text-primary transition-colors">
+                                      {college.name}
+                                    </CardTitle>
+                                  </Link>
+                                  <CardDescription>{college.location}</CardDescription>
+                                </CardHeader>
+                                <CardContent className="pt-0 pb-4">
+                                  <div className="flex items-center mb-2">
+                                    <StarRating rating={college.rating || 4} size={14} />
+                                    <span className="text-sm ml-2">{college.ranking || "Top 100"} Ranking</span>
+                                  </div>
+                                  <p className="text-sm text-muted-foreground">
+                                    {college.description?.substring(0, 100)}...
+                                  </p>
+                                </CardContent>
+                              </Card>
+                            ))
+                          ) : (
+                            <p>No colleges found that offer this course.</p>
+                          )}
+                        </div>
+                      </ScrollArea>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="careers" className="mt-0">
+                  <Card className="glass-panel shadow-lg">
+                    <CardHeader>
+                      <CardTitle>Career Paths</CardTitle>
+                      <CardDescription>Potential careers after {course.name}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <ScrollArea className="h-[400px]">
+                        <div className="space-y-4">
+                          {careers.length > 0 ? (
+                            careers.map((career) => (
+                              <Card key={career.id} className="hover:shadow-md transition-shadow">
+                                <CardHeader className="pb-2">
+                                  <Link to={`/careers/${career.id}`}>
+                                    <CardTitle className="text-lg hover:text-primary transition-colors">
+                                      {career.title}
+                                    </CardTitle>
+                                  </Link>
+                                  <CardDescription>{career.field}</CardDescription>
+                                </CardHeader>
+                                <CardContent className="pt-0 pb-4">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <Badge variant="outline" className="text-xs">
+                                      {career.averageSalary}
+                                    </Badge>
+                                    <Badge variant="outline" className="text-xs">
+                                      {career.growthOutlook}
+                                    </Badge>
+                                  </div>
+                                  <p className="text-sm text-muted-foreground">
+                                    {career.description?.substring(0, 100)}...
+                                  </p>
+                                </CardContent>
+                              </Card>
+                            ))
+                          ) : (
+                            <p>No specific career paths found for this course.</p>
+                          )}
+                        </div>
+                      </ScrollArea>
+                    </CardContent>
+                    <CardFooter>
+                      <Button variant="outline" className="w-full">View all careers</Button>
+                    </CardFooter>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+            </div>
+
+            <div className="lg:col-span-1">
+              <Card className="glass-panel shadow-lg mb-6">
+                <CardHeader>
+                  <CardTitle>Key Information</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <h3 className="font-medium text-sm mb-1">Duration</h3>
+                    <p>{course.duration} {course.durationType}</p>
+                  </div>
+                  <Separator />
+                  <div>
+                    <h3 className="font-medium text-sm mb-1">Qualification</h3>
+                    <p>{course.qualification}</p>
+                  </div>
+                  <Separator />
+                  <div>
+                    <h3 className="font-medium text-sm mb-1">Level</h3>
+                    <p>{course.level}</p>
+                  </div>
+                  <Separator />
+                  <div>
+                    <h3 className="font-medium text-sm mb-1">Study Mode</h3>
+                    <p>{course.studyMode || "Full-time / Part-time"}</p>
+                  </div>
+                  <Separator />
+                  <div>
+                    <h3 className="font-medium text-sm mb-1">Tuition Fees</h3>
+                    <p>{course.tuitionFees || "Varies by college"}</p>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full">Enquire Now</Button>
+                </CardFooter>
+              </Card>
+
+              <Card className="glass-panel shadow-lg">
+                <CardHeader>
+                  <CardTitle>Similar Courses</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <Button variant="ghost" className="w-full justify-start" asChild>
+                    <Link to="/courses/another-course-1">Advanced Course in {course.field}</Link>
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start" asChild>
+                    <Link to="/courses/another-course-2">Specialized {course.name}</Link>
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start" asChild>
+                    <Link to="/courses/another-course-3">Professional Training in {course.field}</Link>
+                  </Button>
+                </CardContent>
+                <CardFooter>
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/courses">Browse all courses</Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
+          </div>
+        </AnimatedTransition>
+      </main>
+    </div>
+  );
+};
+
+export default CourseDetailsPage;
