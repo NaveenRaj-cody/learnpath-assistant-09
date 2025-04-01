@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -94,7 +95,7 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
         )}
       </PopoverTrigger>
       <PopoverContent 
-        className={cn("p-0", popoverWidth)} 
+        className={cn("p-0", popoverWidth, "bg-popover")} 
         align="start"
         sideOffset={4}
       >
@@ -103,11 +104,11 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
             placeholder={searchPlaceholder || `Search ${placeholder.toLowerCase()}...`} 
             value={searchValue}
             onValueChange={setSearchValue}
-            className="h-9"
+            className="h-9 bg-popover"
           />
-          <CommandList className="max-h-[300px] overflow-y-auto">
+          <CommandList className="max-h-[300px] overflow-y-auto bg-popover">
             <CommandEmpty className="bg-popover">{noResultsText}</CommandEmpty>
-            <CommandGroup>
+            <CommandGroup className="bg-popover">
               <ScrollArea className={isMobile ? "h-[200px]" : "h-[300px]"}>
                 {filteredOptions.map((option) => (
                   <CommandItem
@@ -117,7 +118,7 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
                       onValueChange(option.value);
                       setOpen(false);
                     }}
-                    className="cursor-pointer hover:bg-accent/80"
+                    className="cursor-pointer hover:bg-accent/80 bg-popover"
                   >
                     <Check
                       className={cn(
