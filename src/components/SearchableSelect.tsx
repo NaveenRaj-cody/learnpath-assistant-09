@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -36,17 +35,14 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
   const [searchValue, setSearchValue] = useState("");
   const isMobile = useIsMobile();
   
-  // Reset search when dropdown closes
   useEffect(() => {
     if (!open) {
       setSearchValue("");
     }
   }, [open]);
 
-  // Get current selection label
   const selectedLabel = options.find(option => option.value === value)?.label || placeholder;
 
-  // Smart filtering with fuzzy matching
   const filteredOptions = useMemo(() => {
     if (!searchValue) return options;
     
@@ -55,10 +51,8 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
     return options.filter(option => {
       const labelLower = option.label.toLowerCase();
       
-      // Exact match
       if (labelLower.includes(searchLower)) return true;
       
-      // Check for matches with each word in the search term
       const searchWords = searchLower.split(/\s+/);
       return searchWords.every(word => labelLower.includes(word));
     });
@@ -104,15 +98,15 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
         align="start"
         sideOffset={4}
       >
-        <Command>
+        <Command className="bg-popover">
           <CommandInput 
             placeholder={searchPlaceholder || `Search ${placeholder.toLowerCase()}...`} 
             value={searchValue}
             onValueChange={setSearchValue}
             className="h-9"
           />
-          <CommandList>
-            <CommandEmpty>{noResultsText}</CommandEmpty>
+          <CommandList className="max-h-[300px] overflow-y-auto">
+            <CommandEmpty className="bg-popover">{noResultsText}</CommandEmpty>
             <CommandGroup>
               <ScrollArea className={isMobile ? "h-[200px]" : "h-[300px]"}>
                 {filteredOptions.map((option) => (
