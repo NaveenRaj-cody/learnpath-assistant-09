@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -426,7 +425,7 @@ const CollegesPage = () => {
                           )}
                           
                           <div className="pt-1 sm:pt-2">
-                            <StarRating rating={rating} size={isMobile ? 'xs' : 'sm'} />
+                            <StarRating rating={rating} size={isMobile ? 'sm' : 'sm'} />
                           </div>
                         </CardContent>
                         <CardFooter className="p-3 sm:p-4 pt-0 sm:pt-0 flex justify-end">
