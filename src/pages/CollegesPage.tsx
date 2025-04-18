@@ -263,69 +263,49 @@ const CollegesPage = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
       
-      <main className="flex-1 container mx-auto py-8 px-4">
+      <main className="flex-1 container mx-auto py-4 sm:py-8 px-2 sm:px-4">
         <AnimatedTransition>
-          <h1 className="text-3xl font-bold mb-8 text-gradient">Colleges</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8 text-gradient">Colleges</h1>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-6 mb-4 sm:mb-8">
             <div className="lg:col-span-1">
-              <Card className="glass-panel hover:shadow-lg transition-all duration-300">
-                <CardHeader>
-                  <CardTitle className={`text-xl ${isMobile ? 'text-base' : ''}`}>Filters</CardTitle>
-                  <CardDescription>Refine your college search</CardDescription>
+              <Card className="glass-panel">
+                <CardHeader className="p-3 sm:p-6">
+                  <CardTitle className="text-base sm:text-xl">Filters</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">Refine your college search</CardDescription>
                 </CardHeader>
-                <CardContent className={`space-y-4 ${isMobile ? 'space-y-2 p-4' : ''}`}>
-                  <div className="space-y-2">
-                    <label className={`text-sm font-medium ${isMobile ? 'text-xs' : ''}`}>Search</label>
+                <CardContent className="space-y-2 sm:space-y-4 p-3 sm:p-6">
+                  <div className="space-y-1.5 sm:space-y-2">
+                    <label className="text-xs sm:text-sm font-medium">Search</label>
                     <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                      <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-3.5 w-3.5 sm:h-4 sm:w-4" />
                       <Input
                         type="text"
                         placeholder="Search colleges..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className={`pl-10 glass-input active:scale-[0.99] focus:scale-[1.01] transition-all hover:border-primary/50 ${isMobile ? 'text-xs py-1' : ''}`}
+                        className="pl-8 sm:pl-10 text-xs sm:text-sm h-8 sm:h-10"
                       />
                       {searchTerm && (
                         <button 
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
+                          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-muted-foreground"
                           onClick={() => setSearchTerm('')}
                         >
-                          <X className="h-4 w-4" />
+                          <X className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                         </button>
                       )}
                     </div>
-                    
-                    {searchSuggestions.length > 0 && (
-                      <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 shadow-lg rounded-md border border-border/50 max-h-60 overflow-y-auto">
-                        <ul className="py-1">
-                          {searchSuggestions.map((suggestion, index) => (
-                            <li 
-                              key={index} 
-                              className={`px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center ${isMobile ? 'text-xs py-1' : ''}`}
-                              onClick={() => handleSuggestionClick(suggestion)}
-                            >
-                              <Search className="h-4 w-4 mr-2 text-muted-foreground" />
-                              <span>{suggestion}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
                   </div>
                   
-                  <div className="space-y-2">
-                    <label className={`text-sm font-medium ${isMobile ? 'text-xs' : ''}`}>College Type</label>
-                    <Select
-                      value={collegeTypeFilter}
-                      onValueChange={(value) => handleFilterChange('type', value)}
-                    >
-                      <SelectTrigger className={`w-full glass-input ${isMobile ? 'text-xs py-1' : ''}`}>
+                  <div className="space-y-1.5 sm:space-y-2">
+                    <label className="text-xs sm:text-sm font-medium">College Type</label>
+                    <Select value={collegeTypeFilter} onValueChange={(value) => handleFilterChange('type', value)}>
+                      <SelectTrigger className="h-8 sm:h-10 text-xs sm:text-sm">
                         <SelectValue placeholder="Select college type" />
                       </SelectTrigger>
                       <SelectContent>
                         {collegeTypeOptions.map(option => (
-                          <SelectItem key={option.value} value={option.value} className={isMobile ? 'text-xs py-1' : ''}>
+                          <SelectItem key={option.value} value={option.value} className="text-xs sm:text-sm">
                             {option.label}
                           </SelectItem>
                         ))}
@@ -333,196 +313,15 @@ const CollegesPage = () => {
                     </Select>
                   </div>
                   
-                  <div className="space-y-2">
-                    <label className={`text-sm font-medium ${isMobile ? 'text-xs' : ''}`}>College Affiliation</label>
-                    <Select
-                      value={collegeAffiliationFilter}
-                      onValueChange={(value) => handleFilterChange('affiliation', value)}
-                    >
-                      <SelectTrigger className={`w-full glass-input ${isMobile ? 'text-xs py-1' : ''}`}>
+                  <div className="space-y-1.5 sm:space-y-2">
+                    <label className="text-xs sm:text-sm font-medium">College Affiliation</label>
+                    <Select value={collegeAffiliationFilter} onValueChange={(value) => handleFilterChange('affiliation', value)}>
+                      <SelectTrigger className="h-8 sm:h-10 text-xs sm:text-sm">
                         <SelectValue placeholder="Select affiliation" />
                       </SelectTrigger>
                       <SelectContent>
                         {collegeAffiliationOptions.map(option => (
-                          <SelectItem key={option.value} value={option.value} className={isMobile ? 'text-xs py-1' : ''}>
+                          <SelectItem key={option.value} value={option.value} className="text-xs sm:text-sm">
                             {option.label}
                           </SelectItem>
                         ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className={`text-sm font-medium ${isMobile ? 'text-xs' : ''}`}>Specialization</label>
-                    <Select
-                      value={specializationFilter}
-                      onValueChange={(value) => handleFilterChange('specialization', value)}
-                    >
-                      <SelectTrigger className={`w-full glass-input ${isMobile ? 'text-xs py-1' : ''}`}>
-                        <SelectValue placeholder="Select specialization" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {specializationOptions.map(option => (
-                          <SelectItem key={option.value} value={option.value} className={isMobile ? 'text-xs py-1' : ''}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className={`text-sm font-medium ${isMobile ? 'text-xs' : ''}`}>State</label>
-                    <SearchableSelect
-                      options={stateOptions}
-                      value={stateFilter}
-                      onValueChange={(value) => handleFilterChange('state', value)}
-                      placeholder="Select state"
-                      renderAsInput={false}
-                      className={isMobile ? 'text-xs py-1' : ''}
-                    />
-                  </div>
-                  
-                  {stateFilter !== 'all' && (
-                    <div className="space-y-2">
-                      <label className={`text-sm font-medium ${isMobile ? 'text-xs' : ''}`}>District</label>
-                      <SearchableSelect
-                        options={districtOptions}
-                        value={districtFilter}
-                        onValueChange={(value) => handleFilterChange('district', value)}
-                        placeholder="Select district"
-                        renderAsInput={false}
-                        className={isMobile ? 'text-xs py-1' : ''}
-                      />
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-              
-              <div className="mt-4">
-                <Card className="glass-panel hover:shadow-lg transition-all duration-300">
-                  <CardHeader className={isMobile ? 'p-4' : ''}>
-                    <CardTitle className={`text-xl ${isMobile ? 'text-base' : ''}`}>Quick Access</CardTitle>
-                    <CardDescription>Browse by categories</CardDescription>
-                  </CardHeader>
-                  <CardContent className={isMobile ? 'p-4 pt-0' : ''}>
-                    <div className={`grid ${isMobile ? 'grid-cols-2 gap-2' : 'grid-cols-1 gap-2'}`}>
-                      <Button 
-                        variant="outline" 
-                        className={`justify-start hover:bg-primary/10 hover:text-primary transition-all ${isMobile ? 'text-xs py-1.5 px-2' : ''}`}
-                        onClick={() => {
-                          setModalType('colleges');
-                          setShowCoursesModal(true);
-                        }}
-                      >
-                        <Building className={`${isMobile ? 'h-3 w-3 mr-1' : 'mr-2'}`} />
-                        <span>Top Colleges</span>
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className={`justify-start hover:bg-primary/10 hover:text-primary transition-all ${isMobile ? 'text-xs py-1.5 px-2' : ''}`}
-                        onClick={() => {
-                          setModalType('courses');
-                          setShowCoursesModal(true);
-                        }}
-                      >
-                        <MapPin className={`${isMobile ? 'h-3 w-3 mr-1' : 'mr-2'}`} />
-                        <span>Browse Courses</span>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-            
-            <div className="lg:col-span-2">
-              <h2 className={`font-semibold mb-4 ${isMobile ? 'text-lg' : 'text-2xl'}`}>
-                {filteredColleges.length} Colleges Found
-              </h2>
-              
-              <div className={`grid ${isMobile ? 'grid-cols-2 gap-3' : 'grid-cols-1 md:grid-cols-2 gap-6'}`}>
-                {filteredColleges.map((college, index) => {
-                  const rating = getCollegeRating(college.name);
-                  const credentials = getCollegeCredentials(college);
-                  
-                  return (
-                    <Card key={index} className="overflow-hidden hover:shadow-lg transition-all duration-300 glass-panel">
-                      <CardHeader className={`pb-2 ${isMobile ? 'p-3' : ''}`}>
-                        <CardTitle className={`line-clamp-2 ${isMobile ? 'text-sm' : ''}`}>{college.name}</CardTitle>
-                        <CardDescription className={`flex items-center gap-1 ${isMobile ? 'text-xs' : ''}`}>
-                          <MapPin className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'} text-muted-foreground`} />
-                          <span className="line-clamp-1">{college.location}</span>
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className={`space-y-4 ${isMobile ? 'p-3 pt-0 space-y-2' : ''}`}>
-                        <div className="flex items-center">
-                          <StarRating rating={rating} size={isMobile ? 'sm' : 'md'} />
-                          <span className={`ml-2 font-medium ${isMobile ? 'text-xs' : ''}`}>{rating.toFixed(1)}/5</span>
-                        </div>
-                        
-                        <div className={`space-y-2 ${isMobile ? 'space-y-1' : ''}`}>
-                          <div className={`flex flex-wrap gap-2 ${isMobile ? 'gap-1' : ''}`}>
-                            {credentials.ranking && (
-                              <div className="bg-primary/10 text-foreground px-2 py-1 rounded-md text-xs flex items-center">
-                                <Medal className={`${isMobile ? 'h-3 w-3 mr-1' : 'h-4 w-4 mr-1.5'} text-primary`} />
-                                <span className={isMobile ? 'text-[10px]' : ''}>{credentials.ranking}</span>
-                              </div>
-                            )}
-                            {credentials.accreditation && (
-                              <div className="bg-green-500/10 text-foreground px-2 py-1 rounded-md text-xs flex items-center">
-                                <CheckSquare className={`${isMobile ? 'h-3 w-3 mr-1' : 'h-4 w-4 mr-1.5'} text-green-500`} />
-                                <span className={isMobile ? 'text-[10px]' : ''}>{credentials.accreditation}</span>
-                              </div>
-                            )}
-                            <div className="bg-blue-500/10 text-foreground px-2 py-1 rounded-md text-xs flex items-center">
-                              <Building className={`${isMobile ? 'h-3 w-3 mr-1' : 'h-4 w-4 mr-1.5'} text-blue-500`} />
-                              <span className={isMobile ? 'text-[10px]' : ''}>{credentials.affiliation}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                      <CardFooter className={`${isMobile ? 'p-3 pt-0' : 'pt-0'}`}>
-                        <Button 
-                          onClick={() => handleViewDetails(college)} 
-                          className={`w-full transition-all ${isMobile ? 'text-xs py-1.5' : ''}`}
-                        >
-                          View Details
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  );
-                })}
-              </div>
-              
-              {filteredColleges.length === 0 && (
-                <Card className="p-8 text-center">
-                  <CardContent className="flex flex-col items-center justify-center py-6">
-                    <Building className="h-16 w-16 text-muted-foreground mb-4" />
-                    <h3 className="text-xl font-semibold mb-2">No colleges found</h3>
-                    <p className="text-muted-foreground mb-4">Try adjusting your filters to see more results</p>
-                    <Button onClick={() => {
-                      setSearchTerm('');
-                      setCollegeTypeFilter('all');
-                      setCollegeAffiliationFilter('all');
-                      setSpecializationFilter('all');
-                      setStateFilter('all');
-                      setDistrictFilter('all');
-                    }}>Reset Filters</Button>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
-          </div>
-        </AnimatedTransition>
-        
-        <CoursesModal 
-          isOpen={showCoursesModal} 
-          onClose={() => setShowCoursesModal(false)} 
-          type={modalType}
-        />
-      </main>
-    </div>
-  );
-};
-
-export default CollegesPage;

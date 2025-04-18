@@ -120,9 +120,9 @@ const CareersPage = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
       
-      <main className="flex-1 container mx-auto py-8 px-4">
+      <main className="flex-1 container mx-auto py-4 sm:py-8 px-2 sm:px-4">
         <AnimatedTransition>
-          <h1 className="text-3xl font-bold mb-8 text-gradient">Career Opportunities</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8 text-gradient">Career Opportunities</h1>
           
           <div className="mb-8">
             <Tabs defaultValue={selectedRegion} onValueChange={setSelectedRegion} className="w-full">
@@ -195,8 +195,8 @@ const CareersPage = () => {
               
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <BriefcaseIcon className="h-5 w-5 text-primary" />
+                  <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 flex items-center gap-1 sm:gap-2">
+                    <BriefcaseIcon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                     Career Opportunities {selectedRegion === 'india' ? 'in India' : 'Worldwide'}
                   </h2>
                   
@@ -207,47 +207,45 @@ const CareersPage = () => {
                       <p className="text-muted-foreground mb-4">Try adjusting your filters</p>
                     </Card>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4 mb-4 sm:mb-6">
                       {filteredCareers.map((career) => (
                         <Card key={career.id} className="flex flex-col h-full hover:border-primary transition-colors glass-panel">
-                          <CardHeader className="pb-2">
-                            <div className="flex justify-between items-start">
-                              <CardTitle className="text-lg">{career.title}</CardTitle>
-                              <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
+                          <CardHeader className="p-2 sm:p-6 pb-1 sm:pb-2">
+                            <div className="flex justify-between items-start gap-1 sm:gap-2">
+                              <CardTitle className="text-sm sm:text-lg line-clamp-2">{career.title}</CardTitle>
+                              <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 text-[10px] sm:text-xs whitespace-nowrap">
                                 {career.field}
                               </Badge>
                             </div>
-                            <CardDescription>{career.description.substring(0, 80)}...</CardDescription>
+                            <CardDescription className="text-[11px] sm:text-sm line-clamp-2">
+                              {career.description}
+                            </CardDescription>
                           </CardHeader>
-                          <CardContent className="pb-2 flex-grow">
-                            <div className="grid grid-cols-2 gap-2 text-sm">
+                          <CardContent className="p-2 sm:p-6 pt-1 sm:pt-2 flex-grow">
+                            <div className="grid grid-cols-2 gap-1 sm:gap-2 text-[10px] sm:text-sm">
                               <div className="flex items-center gap-1">
-                                <Banknote className="h-3.5 w-3.5 text-muted-foreground" />
-                                <span>{selectedRegion === 'india' ? career.salaryRange.india : career.salaryRange.global}</span>
+                                <Banknote className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-muted-foreground" />
+                                <span className="line-clamp-1">{selectedRegion === 'india' ? career.salaryRange.india : career.salaryRange.global}</span>
                               </div>
                               <div className="flex items-center gap-1">
-                                <LineChart className="h-3.5 w-3.5 text-muted-foreground" />
-                                <span>Growth: {career.growthRate}</span>
+                                <LineChart className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-muted-foreground" />
+                                <span className="line-clamp-1">Growth: {career.growthRate}</span>
                               </div>
                               <div className="flex items-center gap-1">
-                                <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
-                                <span>
-                                  {selectedRegion === 'india' 
-                                    ? 'Major Indian Cities' 
-                                    : 'Global Markets'}
-                                </span>
+                                <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-muted-foreground" />
+                                <span className="line-clamp-1">{selectedRegion === 'india' ? 'Major Indian Cities' : 'Global Markets'}</span>
                               </div>
                               <div className="flex items-center gap-1">
-                                <Building className="h-3.5 w-3.5 text-muted-foreground" />
-                                <span>Multiple Industries</span>
+                                <Building className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-muted-foreground" />
+                                <span className="line-clamp-1">Multiple Industries</span>
                               </div>
                             </div>
                           </CardContent>
-                          <CardFooter className="mt-auto">
+                          <CardFooter className="mt-auto p-2 sm:p-6 pt-0">
                             <Button 
-                              size="sm" 
+                              size="sm"
                               variant="outline" 
-                              className="w-full"
+                              className="w-full text-[11px] sm:text-sm h-7 sm:h-9"
                               onClick={() => handleViewCareerDetails(career.title)}
                             >
                               View Details
