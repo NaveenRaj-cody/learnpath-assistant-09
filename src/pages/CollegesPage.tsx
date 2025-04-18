@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -321,12 +320,14 @@ const CollegesPage = () => {
                       value={collegeTypeFilter}
                       onValueChange={(value) => handleFilterChange('type', value)}
                     >
-                      <SelectTrigger className="w-full glass-input">
+                      <SelectTrigger className={`w-full glass-input ${isMobile ? 'text-xs py-1' : ''}`}>
                         <SelectValue placeholder="Select college type" />
                       </SelectTrigger>
                       <SelectContent>
                         {collegeTypeOptions.map(option => (
-                          <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                          <SelectItem key={option.value} value={option.value} className={isMobile ? 'text-xs py-1' : ''}>
+                            {option.label}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -337,172 +338,3 @@ const CollegesPage = () => {
                     <Select
                       value={collegeAffiliationFilter}
                       onValueChange={(value) => handleFilterChange('affiliation', value)}
-                    >
-                      <SelectTrigger className="w-full glass-input">
-                        <SelectValue placeholder="Select college affiliation" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {collegeAffiliationOptions.map(option => (
-                          <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Specialization</label>
-                    <Select
-                      value={specializationFilter}
-                      onValueChange={(value) => handleFilterChange('specialization', value)}
-                    >
-                      <SelectTrigger className="w-full glass-input">
-                        <SelectValue placeholder="Select specialization" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {specializationOptions.map(option => (
-                          <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">State/UT</label>
-                    <Select
-                      value={stateFilter}
-                      onValueChange={(value) => handleFilterChange('state', value)}
-                    >
-                      <SelectTrigger className="w-full glass-input">
-                        <SelectValue placeholder="Select state" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {stateOptions.map(option => (
-                          <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  {stateFilter !== 'all' && (
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">District</label>
-                      <Select
-                        value={districtFilter}
-                        onValueChange={(value) => handleFilterChange('district', value)}
-                      >
-                        <SelectTrigger className="w-full glass-input">
-                          <SelectValue placeholder="Select district" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {districtOptions.map(option => (
-                            <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-            
-            <div className="lg:col-span-2">
-              <div className="mb-4">
-                <h2 className="text-xl font-bold">Found {filteredColleges.length} colleges</h2>
-              </div>
-              
-              <div className="grid grid-cols-1 gap-4">
-                {filteredColleges.length > 0 ? (
-                  filteredColleges.map((college) => {
-                    const rating = getCollegeRating(college.name);
-                    const credentials = getCollegeCredentials(college);
-                    
-                    return (
-                      <Card key={college.id} className="hover:shadow-lg transition-all duration-300 group glass-panel">
-                        <div className="flex flex-col md:flex-row">
-                          <div className="md:w-1/4 p-6">
-                            <div className="flex items-center justify-center h-full">
-                              {college.logo ? (
-                                <img 
-                                  src={college.logo} 
-                                  alt={`${college.name} logo`} 
-                                  className="max-h-24 max-w-full object-contain transition-transform group-hover:scale-110" 
-                                />
-                              ) : (
-                                <Building className="h-24 w-24 text-primary/60 transition-transform group-hover:scale-110" />
-                              )}
-                            </div>
-                          </div>
-                          
-                          <CardContent className="flex-1 p-6 pt-6">
-                            <div className="mb-2 flex justify-between items-start">
-                              <h3 className="text-xl font-bold hover:text-primary transition-colors">{college.name}</h3>
-                              <StarRating rating={rating} />
-                            </div>
-                            
-                            <div className="flex items-center text-muted-foreground mb-3">
-                              <MapPin className="h-4 w-4 mr-1" />
-                              <span>{college.location}</span>
-                            </div>
-                            
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 mb-4">
-                              {credentials.ranking && (
-                                <div className="flex items-center text-sm">
-                                  <Medal className="h-4 w-4 mr-1 text-amber-500" />
-                                  <span>{credentials.ranking}</span>
-                                </div>
-                              )}
-                              
-                              {credentials.accreditation && (
-                                <div className="flex items-center text-sm">
-                                  <CheckSquare className="h-4 w-4 mr-1 text-green-500" />
-                                  <span>{credentials.accreditation}</span>
-                                </div>
-                              )}
-                              
-                              <div className="flex items-center text-sm">
-                                <Building className="h-4 w-4 mr-1 text-blue-500" />
-                                <span>{credentials.affiliation}</span>
-                              </div>
-                            </div>
-                            
-                            <div className="flex flex-wrap gap-2">
-                              {college.features.slice(0, 3).map((feature, index) => (
-                                <span 
-                                  key={index} 
-                                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary-foreground"
-                                >
-                                  {feature}
-                                </span>
-                              ))}
-                            </div>
-                          </CardContent>
-                          
-                          <CardFooter className="p-6 flex flex-col justify-end">
-                            <Button 
-                              onClick={() => handleViewDetails(college)}
-                              variant="default"
-                              className="w-full"
-                            >
-                              View Details
-                            </Button>
-                          </CardFooter>
-                        </div>
-                      </Card>
-                    );
-                  })
-                ) : (
-                  <div className="text-center py-12">
-                    <h3 className="text-xl font-semibold">No colleges found</h3>
-                    <p className="text-muted-foreground mt-2">Try changing your search criteria</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </AnimatedTransition>
-      </main>
-    </div>
-  );
-};
-
-export default CollegesPage;
