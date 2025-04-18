@@ -329,3 +329,200 @@ const CollegesPage = () => {
                             {option.label}
                           </SelectItem>
                         ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className={`text-sm font-medium ${isMobile ? 'text-xs' : ''}`}>College Affiliation</label>
+                    <Select
+                      value={collegeAffiliationFilter}
+                      onValueChange={(value) => handleFilterChange('affiliation', value)}
+                    >
+                      <SelectTrigger className={`w-full glass-input ${isMobile ? 'text-xs py-1' : ''}`}>
+                        <SelectValue placeholder="Select affiliation" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {collegeAffiliationOptions.map(option => (
+                          <SelectItem key={option.value} value={option.value} className={isMobile ? 'text-xs py-1' : ''}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className={`text-sm font-medium ${isMobile ? 'text-xs' : ''}`}>Specialization</label>
+                    <Select
+                      value={specializationFilter}
+                      onValueChange={(value) => handleFilterChange('specialization', value)}
+                    >
+                      <SelectTrigger className={`w-full glass-input ${isMobile ? 'text-xs py-1' : ''}`}>
+                        <SelectValue placeholder="Select specialization" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {specializationOptions.map(option => (
+                          <SelectItem key={option.value} value={option.value} className={isMobile ? 'text-xs py-1' : ''}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className={`text-sm font-medium ${isMobile ? 'text-xs' : ''}`}>State</label>
+                    <SearchableSelect
+                      options={stateOptions}
+                      value={stateFilter}
+                      onValueChange={(value) => handleFilterChange('state', value)}
+                      placeholder="Select state"
+                      renderAsInput={false}
+                      className={isMobile ? 'text-xs py-1' : ''}
+                    />
+                  </div>
+                  
+                  {stateFilter !== 'all' && (
+                    <div className="space-y-2">
+                      <label className={`text-sm font-medium ${isMobile ? 'text-xs' : ''}`}>District</label>
+                      <SearchableSelect
+                        options={districtOptions}
+                        value={districtFilter}
+                        onValueChange={(value) => handleFilterChange('district', value)}
+                        placeholder="Select district"
+                        renderAsInput={false}
+                        className={isMobile ? 'text-xs py-1' : ''}
+                      />
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+              
+              <div className="mt-4">
+                <Card className="glass-panel hover:shadow-lg transition-all duration-300">
+                  <CardHeader className={isMobile ? 'p-4' : ''}>
+                    <CardTitle className={`text-xl ${isMobile ? 'text-base' : ''}`}>Quick Access</CardTitle>
+                    <CardDescription>Browse by categories</CardDescription>
+                  </CardHeader>
+                  <CardContent className={isMobile ? 'p-4 pt-0' : ''}>
+                    <div className={`grid ${isMobile ? 'grid-cols-2 gap-2' : 'grid-cols-1 gap-2'}`}>
+                      <Button 
+                        variant="outline" 
+                        className={`justify-start hover:bg-primary/10 hover:text-primary transition-all ${isMobile ? 'text-xs py-1.5 px-2' : ''}`}
+                        onClick={() => {
+                          setModalType('colleges');
+                          setShowCoursesModal(true);
+                        }}
+                      >
+                        <Building className={`${isMobile ? 'h-3 w-3 mr-1' : 'mr-2'}`} />
+                        <span>Top Colleges</span>
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className={`justify-start hover:bg-primary/10 hover:text-primary transition-all ${isMobile ? 'text-xs py-1.5 px-2' : ''}`}
+                        onClick={() => {
+                          setModalType('courses');
+                          setShowCoursesModal(true);
+                        }}
+                      >
+                        <MapPin className={`${isMobile ? 'h-3 w-3 mr-1' : 'mr-2'}`} />
+                        <span>Browse Courses</span>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+            
+            <div className="lg:col-span-2">
+              <h2 className={`font-semibold mb-4 ${isMobile ? 'text-lg' : 'text-2xl'}`}>
+                {filteredColleges.length} Colleges Found
+              </h2>
+              
+              <div className={`grid ${isMobile ? 'grid-cols-2 gap-3' : 'grid-cols-1 md:grid-cols-2 gap-6'}`}>
+                {filteredColleges.map((college, index) => {
+                  const rating = getCollegeRating(college.name);
+                  const credentials = getCollegeCredentials(college);
+                  
+                  return (
+                    <Card key={index} className="overflow-hidden hover:shadow-lg transition-all duration-300 glass-panel">
+                      <CardHeader className={`pb-2 ${isMobile ? 'p-3' : ''}`}>
+                        <CardTitle className={`line-clamp-2 ${isMobile ? 'text-sm' : ''}`}>{college.name}</CardTitle>
+                        <CardDescription className={`flex items-center gap-1 ${isMobile ? 'text-xs' : ''}`}>
+                          <MapPin className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'} text-muted-foreground`} />
+                          <span className="line-clamp-1">{college.location}</span>
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className={`space-y-4 ${isMobile ? 'p-3 pt-0 space-y-2' : ''}`}>
+                        <div className="flex items-center">
+                          <StarRating rating={rating} size={isMobile ? 'sm' : 'md'} />
+                          <span className={`ml-2 font-medium ${isMobile ? 'text-xs' : ''}`}>{rating.toFixed(1)}/5</span>
+                        </div>
+                        
+                        <div className={`space-y-2 ${isMobile ? 'space-y-1' : ''}`}>
+                          <div className={`flex flex-wrap gap-2 ${isMobile ? 'gap-1' : ''}`}>
+                            {credentials.ranking && (
+                              <div className="bg-primary/10 text-foreground px-2 py-1 rounded-md text-xs flex items-center">
+                                <Medal className={`${isMobile ? 'h-3 w-3 mr-1' : 'h-4 w-4 mr-1.5'} text-primary`} />
+                                <span className={isMobile ? 'text-[10px]' : ''}>{credentials.ranking}</span>
+                              </div>
+                            )}
+                            {credentials.accreditation && (
+                              <div className="bg-green-500/10 text-foreground px-2 py-1 rounded-md text-xs flex items-center">
+                                <CheckSquare className={`${isMobile ? 'h-3 w-3 mr-1' : 'h-4 w-4 mr-1.5'} text-green-500`} />
+                                <span className={isMobile ? 'text-[10px]' : ''}>{credentials.accreditation}</span>
+                              </div>
+                            )}
+                            <div className="bg-blue-500/10 text-foreground px-2 py-1 rounded-md text-xs flex items-center">
+                              <Building className={`${isMobile ? 'h-3 w-3 mr-1' : 'h-4 w-4 mr-1.5'} text-blue-500`} />
+                              <span className={isMobile ? 'text-[10px]' : ''}>{credentials.affiliation}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                      <CardFooter className={`${isMobile ? 'p-3 pt-0' : 'pt-0'}`}>
+                        <Button 
+                          onClick={() => handleViewDetails(college)} 
+                          className={`w-full transition-all ${isMobile ? 'text-xs py-1.5' : ''}`}
+                        >
+                          View Details
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  );
+                })}
+              </div>
+              
+              {filteredColleges.length === 0 && (
+                <Card className="p-8 text-center">
+                  <CardContent className="flex flex-col items-center justify-center py-6">
+                    <Building className="h-16 w-16 text-muted-foreground mb-4" />
+                    <h3 className="text-xl font-semibold mb-2">No colleges found</h3>
+                    <p className="text-muted-foreground mb-4">Try adjusting your filters to see more results</p>
+                    <Button onClick={() => {
+                      setSearchTerm('');
+                      setCollegeTypeFilter('all');
+                      setCollegeAffiliationFilter('all');
+                      setSpecializationFilter('all');
+                      setStateFilter('all');
+                      setDistrictFilter('all');
+                    }}>Reset Filters</Button>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </div>
+        </AnimatedTransition>
+        
+        <CoursesModal 
+          isOpen={showCoursesModal} 
+          onClose={() => setShowCoursesModal(false)} 
+          type={modalType}
+        />
+      </main>
+    </div>
+  );
+};
+
+export default CollegesPage;
