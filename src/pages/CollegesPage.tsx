@@ -271,12 +271,12 @@ const CollegesPage = () => {
             <div className="lg:col-span-1">
               <Card className="glass-panel hover:shadow-lg transition-all duration-300">
                 <CardHeader>
-                  <CardTitle className="text-xl">Filters</CardTitle>
+                  <CardTitle className={`text-xl ${isMobile ? 'text-base' : ''}`}>Filters</CardTitle>
                   <CardDescription>Refine your college search</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className={`space-y-4 ${isMobile ? 'space-y-2 p-4' : ''}`}>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Search</label>
+                    <label className={`text-sm font-medium ${isMobile ? 'text-xs' : ''}`}>Search</label>
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                       <Input
@@ -284,7 +284,7 @@ const CollegesPage = () => {
                         placeholder="Search colleges..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 glass-input active:scale-[0.99] focus:scale-[1.01] transition-all hover:border-primary/50"
+                        className={`pl-10 glass-input active:scale-[0.99] focus:scale-[1.01] transition-all hover:border-primary/50 ${isMobile ? 'text-xs py-1' : ''}`}
                       />
                       {searchTerm && (
                         <button 
@@ -302,7 +302,7 @@ const CollegesPage = () => {
                           {searchSuggestions.map((suggestion, index) => (
                             <li 
                               key={index} 
-                              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center"
+                              className={`px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center ${isMobile ? 'text-xs py-1' : ''}`}
                               onClick={() => handleSuggestionClick(suggestion)}
                             >
                               <Search className="h-4 w-4 mr-2 text-muted-foreground" />
@@ -315,7 +315,7 @@ const CollegesPage = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">College Type</label>
+                    <label className={`text-sm font-medium ${isMobile ? 'text-xs' : ''}`}>College Type</label>
                     <Select
                       value={collegeTypeFilter}
                       onValueChange={(value) => handleFilterChange('type', value)}
@@ -329,12 +329,3 @@ const CollegesPage = () => {
                             {option.label}
                           </SelectItem>
                         ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">College Affiliation</label>
-                    <Select
-                      value={collegeAffiliationFilter}
-                      onValueChange={(value) => handleFilterChange('affiliation', value)}
